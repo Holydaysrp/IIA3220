@@ -25,9 +25,9 @@ Encoder encoder(CLK, DT);
 int lastSwitchState = HIGH;
 bool manualMode = false;
 bool relayState = false;
-bool alarmMode = true;
+bool alarmMode = false;
 float hysteresis = 0;
-const float distanceThreshold = 15.0;
+float distanceThreshold = 15.0;
 double setpoint = 25;  // Target temperature
 float tolerance = 2;
 int fanMinSpeed = 50;
@@ -139,7 +139,14 @@ void beepBuzzer(int times) {
       digitalWrite(LED_FAILURE, LOW);
       delay(100);
     }
-  }
+  } else {
+      digitalWrite(LED_MANUAL, HIGH);
+      digitalWrite(LED_FAILURE, HIGH);
+      delay(100);
+      digitalWrite(LED_MANUAL, LOW);
+      digitalWrite(LED_FAILURE, LOW);
+      delay(100);
+    }
 }
 
 void processCommand(String command) {
@@ -156,6 +163,8 @@ void processCommand(String command) {
       hysteresis = value.toFloat();
     } else if (keyword == "FAN_MIN_SPEED") {
       fanMinSpeed = value.toInt();
+    } else if (keyword == "DISTANCE") {
+      distanceThreshold = value.toInt();
     } else if (keyword == "PID") {
       int firstComma = value.indexOf(',');
       int secondComma = value.indexOf(',', firstComma + 1);
