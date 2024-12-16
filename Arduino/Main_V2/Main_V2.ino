@@ -28,7 +28,7 @@ bool relayState = false;
 bool alarmMode = false;
 float hysteresis = 0;
 float distanceThreshold = 15.0;
-double setpoint = 25;  // Target temperature
+double setpoint = 25;
 float tolerance = 2;
 int fanMinSpeed = 50;
 
